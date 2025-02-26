@@ -24,8 +24,10 @@ func (h *AuthHandler) Login() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		fmt.Println(req.Email, req.Password)
-		fmt.Println("Login")
+		if req.Email == "" || req.Password == "" {
+			http.Error(w, "Email and password fields are required", http.StatusBadRequest)
+			return
+		}
 		data := LoginResponse{
 			Token: "123",
 		}
