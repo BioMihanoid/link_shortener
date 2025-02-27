@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
 	"web-app/pkg/res"
 )
 
@@ -22,6 +23,12 @@ func (h *AuthHandler) Login() http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		//TODO: do check regexp email
+		match, _ := regexp.MatchString("^[a-zA-Z0-9_-]{5,15}$", req.Email)
+		if match {
+			http.Error(w, "Email bad", http.StatusForbidden)
 			return
 		}
 		if req.Email == "" || req.Password == "" {
