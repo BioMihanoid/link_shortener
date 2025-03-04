@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  db-postgres:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./postgres-data:/data/postgres
+    environment:
+      - POSTGRES_PASSWORD=my_pass
+      - PGDATA=/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - full-service
+
+networks:
+  full-service:
+    driver: bridge
