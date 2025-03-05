@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"web-app/config"
 	"web-app/internal/auth"
+	"web-app/pkg/db"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -12,7 +13,8 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	_ = config.LoadConfig()
+	conf := config.LoadConfig()
+	_ = db.NewDb(conf)
 	router := http.NewServeMux()
 	auth.NewAuthHandler(router)
 
